@@ -1,0 +1,269 @@
+<html>
+<head>
+    <style>
+        body {
+            background-color: linen;
+            min-height: 100%;
+            background-image: url('./images/bgpic.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            text-align: center;
+
+        }
+        table
+         {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1
+        {
+         font-size: 20px;
+            text-align: center;
+            font-family: "Times New Roman";
+            font-style: oblique;
+        }
+
+    </style>
+<script >
+  var  ticketArrayA = new Array(5);
+  var  ticketArrayB = new Array(5);
+  var  ticketArrayC = new Array(5);
+
+var priceA =0;
+var priceB =0;
+var priceC =0;
+
+var indexA =0;
+var indexB =0;
+var indexC =0;
+
+function randomPrice()
+{
+  priceA=Math.floor((Math.random() * 101) + 100);
+    priceB=Math.floor((Math.random() * 201) + 100);
+   priceC=Math.floor((Math.random() * 201) + 100);
+}
+
+function start()
+{
+//  window.alert("starting");
+
+  randomPrice();
+    var p1 = document.getElementById('p1');
+    var p2 = document.getElementById('p2');
+    var p3 = document.getElementById('p3');
+    var price1 = document.getElementById('price1');
+    var price2 = document.getElementById('price2');
+    var price3 = document.getElementById('price3');
+
+  // if(priceA < priceB)
+  // {
+  //     if(priceA < priceC)
+  //     {
+  //         //A lowest
+  //         p1.innerText = " "+priceA+" (A)";
+  //         price1.value = 1;
+  //         if(priceB < priceC)
+  //         {
+  //             //B lower
+  //             p2.innerText = " "+priceB+" (B)";
+  //             price2.value = 2;
+  //             p3.innerText = " "+priceC+" (C)";
+  //             price3.value = 3;
+  //         }
+  //         else
+  //         {
+  //             //C lower
+  //             p3.innerText = " "+priceB+" (B)";
+  //             price3.value = 2;
+  //             p2.innerText = " "+priceC+" (C)";
+  //             price2.value = 3;
+  //         }
+  //     }
+  //
+  // }
+
+    //from https://www.w3schools.com/js/js_array_sort.asp
+    var prices = new Array(3);
+    prices[0] = priceA;
+    prices[1] = priceB;
+    prices[2] = priceC;
+    prices.sort(function(a, b){return a - b});
+
+    if(prices[0] == priceA)
+    {
+       p1.innerText = " "+priceA+" (A)";
+       price1.value = "A";
+    }
+    else
+    {
+        if(prices[0] == priceB)
+        {
+            p1.innerText = " "+priceB+" (B)";
+            price1.value = "B";
+        }
+        else
+        {
+            p1.innerText = " "+priceC+" (C)";
+            price1.value = "C";
+        }
+    }
+
+    if(prices[1] == priceA)
+    {
+        p2.innerText = " "+priceA+" (A)";
+        price2.value = "A";
+    }
+    else
+    {
+        if(prices[1] == priceB)
+        {
+            p2.innerText = " "+priceB+" (B)";
+            price2.value = "B";
+        }
+        else
+        {
+            p2.innerText = " "+priceC+" (C)";
+            price2.value = "C";
+        }
+    }
+
+    if(prices[2] == priceA)
+    {
+        p3.innerText = " "+priceA+" (A)";
+        price3.value = "A";
+    }
+    else
+    {
+        if(prices[2] == priceB)
+        {
+            p3.innerText = " "+priceB+" (B)";
+            price3.value = "B";
+        }
+        else
+        {
+            p3.innerText = " "+priceC+" (C)";
+            price3.value = "C";
+        }
+    }
+
+  }
+  
+  function save()
+{
+//window.alert("starting");
+var element = document.getElementById('boardingPass');
+var userName = document.getElementById('name').value;
+var selectedRadio = getSelectedRadio();
+
+if(selectedRadio == null)
+{
+    window.alert("Please make a section");
+    return;
+}
+var section = selectedRadio.value;
+var seat;
+var priceOfSection;
+switch(section)
+{
+    case "A": //section A
+        ticketArrayA[indexA] = 1;
+        indexA++;
+        priceOfSection = priceA;
+        if(indexA == 5)
+        {
+            selectedRadio.checked = false;
+            selectedRadio.disabled  = true;
+        }
+        seat = indexA;
+        break;
+    case "B": //section B
+        ticketArrayB[indexB] = 1;
+        indexB++;
+        priceOfSection = priceB;
+        if(indexB == 5)
+        {
+            selectedRadio.checked = false;
+            selectedRadio.disabled  = true;
+        }
+        seat = indexB + 5;
+        break;
+    case "C": //section C
+        ticketArrayC[indexC] = 1;
+        indexC++;
+        priceOfSection = priceC;
+        if(indexC == 5)
+        {
+            selectedRadio.checked = false;
+            selectedRadio.disabled  = true;
+        }
+        seat = indexC + 10;
+        break;
+
+}
+if((indexA == 5)&&(indexB == 5)&&(indexC == 5))
+{
+    var main = document.getElementById('main');
+    main.innerText = "The information for the next flight will be available soon";
+}
+
+var txt = "<table border ='1' ><tr><th>Name</th><td>"+userName+"</td></tr>";
+txt = txt+"<tr><tr><th>Seat</th><td>"+seat+"</td></tr>";
+txt = txt+"<tr><tr><th>Section</th><td>"+section+"</td></tr>";
+txt = txt+"<tr><tr><th>Price</th><td>"+priceOfSection+"</td></tr>";
+txt = txt+"</table>";
+      if(userName== ""){
+          window.alert("Name cannot be left empty")
+          return;
+      }
+element.innerHTML = txt;
+
+}
+
+function getSelectedRadio()
+{
+    var price1 = document.getElementById('price1');
+    var price2 = document.getElementById('price2');
+    var price3 = document.getElementById('price3');
+    if(price1.checked)
+        return price1;
+    if(price2.checked)
+        return price2;
+    if(price3.checked)
+        return price3;
+    return null; // no selection
+}
+
+window.addEventListener("load", start, false);
+</script>
+</head>
+<body>
+<h1> Welcome to Charlottetown Airlines! </h1>
+<div id='main'>
+    <br/>
+    Choose ticket
+    <label for="price1" id="p1"></label><input type="radio" id="price1" name="price" value=""/>
+    <label for="price1" id="p2"></label><input type="radio" id="price2" name="price" value=""/>
+    <label for="price1" id="p3"></label><input type="radio" id="price3" name="price" value=""/>
+    <br/>
+
+<!-- passenger data start -->
+Name = <input title="text" id='name' />
+
+<!-- passenger end start -->
+
+<button onclick="save()"> Book ticket </button>
+
+
+
+</div>
+
+<div id='boardingPass' >
+</div>
+
+<button onclick="location.reload();" > Go to next flight</button>
+
+</body>
+</html>
